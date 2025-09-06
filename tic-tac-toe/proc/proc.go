@@ -55,8 +55,12 @@ func (p *Processor) Game() error {
 				continue
 			}
 		} else {
-			p.enemyInput()
-			time.Sleep(1000 * time.Millisecond)
+			place := p.mac.Scan()
+			err := p.input(place, types.Cross)
+			if err != nil {
+				i--
+				continue
+			}
 		}
 
 		res := p.judge()
@@ -76,9 +80,9 @@ func (p *Processor) Game() error {
 
 	switch p.judge() {
 	case types.Circle:
-		p.mac.DisplayString("You Win!")
+		p.mac.DisplayString("Red Win!")
 	case types.Cross:
-		p.mac.DisplayString("You Lose")
+		p.mac.DisplayString("Blue Win!")
 	case types.Empty:
 		p.mac.DisplayString("Draw")
 	}
